@@ -1,0 +1,37 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri May 31 18:49:13 2019
+
+@author: aatis
+"""
+
+
+#Importing Libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd 
+
+# importing the dataset
+dataset = pd.read_csv('position_salaries.csv')
+X = dataset.iloc[:,1:2].values
+Y = dataset.iloc[:,2].values
+  
+
+#Fitting Random Forest Tree  Regression Model  to the dataset
+from sklearn.ensemble import RandomForestRegressor
+regressor = RandomForestRegressor(n_estimators = 300, random_state = 0)
+regressor.fit(X,Y)
+
+
+#Predicitng a new result with Random  Forest Tree Regression Result
+Y_pred = regressor.predict([[6.5]])
+
+#Visualising the Random Forest Tree Regression results(for higher resoultion and smoother curver)
+X_grid =np.arange(min(X),max(X),0.01)
+X_grid = X_grid.reshape((len(X_grid),1))
+plt.scatter(X,Y, color = 'red')
+plt.plot(X_grid,regressor.predict(X_grid), color = 'blue') # Traditional method
+plt.title("Random Forest Tree Regression Model")
+plt.xlabel("Levels")
+plt.ylabel("Salaries")
+plt.show()
